@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1d3557;">
+         <top>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                <Button fx:id="btnsave" mnemonicParsing="false" onAction="#savefile" prefHeight="27.0" prefWidth="71.0" text="Save" />
+              </items>
+            </ToolBar>
+         </top>
+         <bottom>
+            <HBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="732.0" spacing="30.0" style="-fx-background-color: #27436B;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="SelectFilebtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#FileSelector" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FF0000;" text="Input xml file" textAlignment="CENTER" textFill="WHITE">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="Arial Black" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FF0000;" text="Visualize" textFill="#fffbfb">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="Arial Black" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Check Consistency" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Prettify" textAlignment="CENTER" textFill="#fcfcfc">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="XML to JSON" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnMinify" mnemonicParsing="false" onAction="#Minify" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Minify" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Compress" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Decompress" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="most influencer user" textFill="#fafafa">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="most active user" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="the mutual followers" textFill="#f4f4f4">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="suggest followers" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </center>
+         <left>
+            <TextArea fx:id="TextArea1" prefHeight="503.0" prefWidth="341.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </TextArea>
+         </left>
+         <right>
+            <TextArea fx:id="TextArea2" prefHeight="480.0" prefWidth="318.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </TextArea>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
