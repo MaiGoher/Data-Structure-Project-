@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 
 /**
  *
- * @author Maiosha
+ * @author Mai Esmail
  */
 public class CustomInput {
     private static BufferedInputStream in;      // buffered input stream to avoid multiple calling for sys in
