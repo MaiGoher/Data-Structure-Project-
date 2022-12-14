@@ -8,7 +8,7 @@ import java.io.*;
 
 /**
  *
- * @author Mai Esmail
+ * @author Maiosha
  */
 public class Decompression extends HuffmanTree {
     
@@ -35,15 +35,12 @@ public class Decompression extends HuffmanTree {
                 else
                     x = x.left;
             }
-            CustomStdOut.write(x.ch);
+            CustomOutput.write(x.ch);
         }
         CustomInput.close();
-        CustomStdOut.close();
+        CustomOutput.close();
     }
-/**
- * using decompress function without parameters
- * to decompress file input and save compression output into another file
- **/
+
     public static void decompress(File input, File output) {
         InputStream orgInStream = System.in;
         PrintStream orgOutStream = System.out;

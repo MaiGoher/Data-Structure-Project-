@@ -20,8 +20,9 @@ public class Compression extends HuffmanTree {
  * 3.write tree in output file for decoding
  * 4.write the length of the input stream for decoding
  * 5.use Huffman compression to encode the output
+     * @param s
  **/
-    private static void privateCompress(String s) {
+     public static void privateCompress(String s) {
 
         char[] inputChars = s.toCharArray();
 
@@ -36,20 +37,21 @@ public class Compression extends HuffmanTree {
         
         writeTree(root);
 
-        CustomStdOut.write(inputChars.length);
+        CustomOutput.write(inputChars.length);
 
         
         for (int i = 0; i < inputChars.length; i++) {
             String code = symbolTable[inputChars[i]];
             for (int j = 0; j < code.length(); j++) {
-                switch (code.charAt(j)) {
-                    case '1' -> CustomStdOut.write(true);
-                    case '0' -> CustomStdOut.write(false);
-                    default -> throw new IllegalStateException("either 0 or 1, illegal state");
-                }
+                if (code.charAt(j) == '1')
+                    CustomOutput.write(true);
+                else if (code.charAt(j) == '0')
+                    CustomOutput.write(false);
+                else
+                    throw new IllegalStateException("either 0 or 1, illegal state");
             }
         }
-        CustomStdOut.close();
+        CustomOutput.close();
     }
     
 /**

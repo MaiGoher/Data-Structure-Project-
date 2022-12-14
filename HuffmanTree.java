@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author Maiosha
+ * @author Mai Esmail
  */
   class Node implements Comparable<Node> {
 
