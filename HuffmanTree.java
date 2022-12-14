@@ -35,11 +35,13 @@ public class HuffmanTree {
  **/
         @Override
         public int compareTo(Node that) {
-            return Integer.compare(this.freq, that.freq);
+            return this.freq - that.freq;
         }
 
         public boolean isLeaf() {
+            assert ((left == null) && (right == null)) || ((left != null) && (right != null));
             return ((this.left == null) && (this.right == null));
+
         }
     }
 
