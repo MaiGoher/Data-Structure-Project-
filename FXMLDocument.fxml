@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="anchorpane" prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
    <children>
-      <BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1d3557;">
+      <BorderPane prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: #1d3557;">
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
@@ -22,7 +22,7 @@
             </ToolBar>
          </top>
          <bottom>
-            <HBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="732.0" spacing="30.0" style="-fx-background-color: #27436B;" BorderPane.alignment="CENTER">
+            <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="888.0" spacing="30.0" style="-fx-background-color: #27436B;" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="SelectFilebtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#FileSelector" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FF0000;" text="Input xml file" textAlignment="CENTER" textFill="WHITE">
                      <effect>
@@ -54,17 +54,17 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
                      <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Check Consistency" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="btncheckconsis" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#checkconsis" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Check Consistency" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                         </Button>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Prettify" textAlignment="CENTER" textFill="#fcfcfc">
+                        <Button fx:id="btnprettify" contentDisplay="CENTER" mnemonicParsing="false" onAction="#prettify" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Prettify" textAlignment="CENTER" textFill="#fcfcfc">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                         </Button>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="XML to JSON" textFill="WHITE">
+                        <Button fx:id="btnxml2json" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Xml2Json" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="XML to JSON" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
@@ -74,12 +74,12 @@
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Compress" textFill="WHITE">
+                        <Button fx:id="btncompress" mnemonicParsing="false" onAction="#Compress" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Compress" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Decompress" textFill="WHITE">
+                        <Button fx:id="btndecompress" mnemonicParsing="false" onAction="#Decompress" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Decompress" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
@@ -139,13 +139,13 @@
             </TextArea>
          </left>
          <right>
-            <TextArea fx:id="TextArea2" prefHeight="480.0" prefWidth="318.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </BorderPane.margin>
+            <TextArea fx:id="TextArea2" prefHeight="595.0" prefWidth="368.0" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
             </TextArea>
          </right>
       </BorderPane>
