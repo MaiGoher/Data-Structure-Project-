@@ -50,7 +50,7 @@
             </HBox>
          </bottom>
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="585.0" prefWidth="222.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
                      <children>
@@ -89,24 +89,9 @@
                         <Insets top="10.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
+                  <VBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="most influencer user" textFill="#fafafa">
-                           <font>
-                              <Font name="System Bold Italic" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="most active user" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="the mutual followers" textFill="#f4f4f4">
-                           <font>
-                              <Font name="System Bold Italic" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="suggest followers" textFill="WHITE">
+                        <Button fx:id="btnonMakeGraph" mnemonicParsing="false" onAction="#onMakeGraph" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="onMakeGraph" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>

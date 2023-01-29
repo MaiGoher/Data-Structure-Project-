@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
- */
-package com.mycompany.dsproject;
+package project;
+
 /**
  *
  * @author habib
@@ -13,10 +10,14 @@ public class Minifying {
      * @param args the command line arguments
      */
  	public static String minify(String xml) {
+            //check that xml isn't null
 		if (xml == null || xml.trim().length() == 0) return "";
 		StringBuilder x = new StringBuilder();
-		String[] rows = xml.trim().replaceAll(">", ">\n").replaceAll("<", "\n<").split("\n"); // Separate the XML into Row
-		for (int i = 0; i < rows.length; i++)
+                // Split the XML into array of rows
+               String[] rows = xml.trim().replaceAll(">\\s+<", "><").split("\n");
+		//String[] rows = xml.trim().replaceAll(">", ">\n").replaceAll("<", "\n<").split("\n"); 
+		
+                for (int i = 0; i < rows.length; i++)
 		{	
 			if (rows[i] == null || rows[i].trim().length() == 0) 
 				continue;
