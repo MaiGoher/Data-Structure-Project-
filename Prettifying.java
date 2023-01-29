@@ -2,6 +2,7 @@
 /******Coded By Maram Ahmed Hussein*****/
 /**************************************/
 
+package project;
 public class Prettifying {
     
   private static int spacing=0;
@@ -75,4 +76,3 @@ public static String Prettify(String xml_file)
 }
   
 }
-
