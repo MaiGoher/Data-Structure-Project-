@@ -1,12 +1,14 @@
+
+package project;
+/*
+ * Author: Esraa_Amr
+ */
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Stack;
-/**
- *
- * @author Esraa Amr
- */
-public class XmlToJson {
 
+public class XmlToJson {
     public static String XML_To_JSON(String xml) {
         ArrayList<Node> arr = Xml_To_Arr(xml);
         Node node = Arr_To_Tree(arr);
@@ -123,13 +125,17 @@ public class XmlToJson {
             }
         }
     }
-    private static String repeat(String string, int count){
-        StringBuilder stringBuilder = new StringBuilder();
+    
+    private static String repeat(String st, int count){
+        StringBuilder sb = new StringBuilder();
         for(int i=0; i<count; i++){
-            stringBuilder.append(string);
+            sb.append(st);
         }
-        return stringBuilder.toString();
+        return sb.toString();
     }
+   /* private static String repeat(int count){
+        return "   ".repeat(Math.max(0, count));
+    }*/
     private enum NodeType {OPENING_TAG, CLOSING_TAG, DATA, ELEMENT, REPEATED_TAG, DATA_ELEMENT}
 
     private static class Node {
@@ -145,3 +151,4 @@ public class XmlToJson {
         }
     }
 }
+
