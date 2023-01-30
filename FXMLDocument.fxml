@@ -59,6 +59,11 @@
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                         </Button>
+                        <Button fx:id="btncorrecterror" mnemonicParsing="false" onAction="#correcterror" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Correct error" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
                         <Button fx:id="btnprettify" contentDisplay="CENTER" mnemonicParsing="false" onAction="#prettify" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Prettify" textAlignment="CENTER" textFill="#fcfcfc">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />

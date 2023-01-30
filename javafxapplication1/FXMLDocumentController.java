@@ -12,24 +12,20 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import javafx.scene.Group;
-import project.ConsistencyCheck;
 import project.CustomInput;
 import project.CustomOutput;
 import project.Minifying;
 import project.Prettifying;
 import project.XmlToJson;
 import project.graph_representation;
-import javafx.scene.image.*;
+import project.Checkconsistence;
 import project.CompressionHuffman;
 
 /**
@@ -67,9 +63,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button btnxml2json;
     @FXML
-    private Button btnvisualize;
-    @FXML
     private Button btnonMakeGraph;
+    @FXML
+    private Button btncorrecterror;
     
     /**
      * Initializes the controller class.
@@ -228,54 +224,64 @@ public class FXMLDocumentController implements Initializable {
       
         }
     }
-
-    @FXML
-    private void checkconsis(ActionEvent event) {
-        
-                xml = TextArea1.getText();
+    
+        @FXML
+    private void correcterror(ActionEvent event) {        
+       xml = TextArea1.getText();
         if (checkIfEmpty(xml))
             return;
+       
+       Checkconsistence corrector=new Checkconsistence(xml);
+         
+         
+         if(!corrector.isFileConsistent()){
+         JOptionPane.showMessageDialog(null, "Errors have been corrected ","correct error",JOptionPane.INFORMATION_MESSAGE);
+         String msg;
+         msg=corrector.correctTag_str();
+         msg=corrector.correctTagBalance_str(msg);
+         TextArea2.setText( Prettifying.Prettify(msg));
+         }else{
+         JOptionPane.showMessageDialog(null, "Xml file has no errors to be corrected! ","correct error",JOptionPane.INFORMATION_MESSAGE);
+         TextArea2.setText( Prettifying.Prettify(xml));
+         }
+ 
+    }
+     @FXML
+    private void checkconsis(ActionEvent event) {
+         xml = TextArea1.getText();
+        if (checkIfEmpty(xml))
+            return;
+     Checkconsistence checker=new Checkconsistence(xml);   
+    
+      if (!checker.CheckCorrectnessTags_bool()){
+         StringBuilder msg = new StringBuilder();
+           JOptionPane.showMessageDialog(null,"XML file is NOT consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
+            msg.append("Errors count = ").append(checker.Counter_error).append("\n").append("Correct the following tag/s, then check again:\n");
 
-        ConsistencyCheck checker = new ConsistencyCheck(xml);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Consistency check");
-        alert.setHeaderText("Consistency check");
-
-        if (!checker.tagsCorrectness()){
-            StringBuilder msg = new StringBuilder();
-            msg.append("Errors count = ").append(checker.errorsCounter)
-                    .append("\n").append("Correct the following tag/s, then check again:\n");
-
-            for (String s : checker.incorrectTags) {
+            for (String s : checker.IncorrectTags) {
                 msg.append(s).append("\n");
             }
             TextArea2.setText(msg.toString());
-            return; /* do not check for balanced tags until tags are corrected */
-        }
-
-        if (checker.checkBalancedTags()) {
-            alert.setContentText("XML file is consistent");
+            return;
+      }
+            if (checker.CheckTagsBalance_bool()) {
+            
+             JOptionPane.showMessageDialog(null, "XML file is consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
             TextArea2.clear();
         } else {
             StringBuilder msg = new StringBuilder();
-            msg.append("Errors count = ").append(checker.errorsCounter)
-                    .append("\n").append("Error/s in the following tag/s:\n");
+            JOptionPane.showMessageDialog(null,"XML file is NOT consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
+            msg.append("Errors count = ").append(checker.Counter_error).append("\n").append("Error/s in the following tag/s:\n");
 
-            for (String s : checker.incorrectTags) {
+            for (String s : checker.IncorrectTags) {
                 msg.append(s).append("\n");
             }
-
-            alert.setContentText("XML file is NOT consistent");
+           
             TextArea2.setText(msg.toString());
         }
-
-        alert.showAndWait();
-        
-        
-        
-        
-        
+    
+    
+    
     }
 
     @FXML
@@ -298,26 +304,10 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     private void onMakeGraph(ActionEvent event) {
-                xml = TextArea1.getText();
-        if (checkIfEmpty(xml))
-            return;
 
-        ConsistencyCheck checker = new ConsistencyCheck(xml);
-        if (checker.checkBalancedTags() && !xml.isEmpty()) {
-            synchronized (graph_representation.class) {
-                
-                graph_representation.draw(xml);
-                graphReady = true;
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Consistency error");
-            alert.setHeaderText("Not consistent");
-            alert.setContentText("The provided XML has to be consistent to be converted to visualized");
-            alert.showAndWait();
-        }
-        
     }
+
+
 
     }
 
