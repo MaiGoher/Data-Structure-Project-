@@ -34,9 +34,9 @@ If the file is not consistent, user cannot format it.
 
 JSON((Javascript Object Notation) is a format that is used to represent data, and it's widely used to share structures information over the web.
 Conversion to XML is done on three iterations:
-1. Transform the xml string into array of node objects.
-2. transforms this array into a tree of nodes.
-3. transforms the tree recursively into JSON string
+- Transform the xml string into array of node objects.
+- transforms this array into a tree of nodes.
+- transforms the tree recursively into JSON string
 ## Compressing XML/JSON data
 
 Huffman coding is a data compression technique that is used to represent the data in an efficient way. It is a lossless compression algorithm that works by constructing a binary tree that assigns codes to each character in the text. These codes are chosen based on the frequency of the characters, with more frequent characters getting shorter codes and less frequent characters getting longer codes. The main goal of Huffman coding is to minimize the average length of the codes assigned to the characters, resulting in more efficient storage of the text, which resulting a significantly reduce the size of the data without losing any of the original information.
