@@ -46,13 +46,17 @@ Simply , Decompression works by reversing the process of compression,the compres
 
 Analyze the data represented in the network
 
-**Most Influencer User**
+** Most Influencer User **
+
 - It returns the user who has the most followers on the network
-**Most Active User**
+** Most Active User **
+
 - It return the user who follows the biggest number of users
-**Mutual Friends**
+** Mutual Friends **
+
 - The mutual followers between two users are the users who follow both of them.
-**Suggested Friends**
+** Suggested Friends **
+
 - For each user, a list of users to follow can be suggested based on the followers of their followers.
 ## Post Search
 
