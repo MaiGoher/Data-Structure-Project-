@@ -17,3 +17,4 @@ Each post has text and list of topics.
 - Network analysis
 - Post Search
 - Graph visualization
+![Xml_logo svg](https://user-images.githubusercontent.com/39887130/216409010-1073bed3-4518-4085-b1a9-981f571b44a4.png)
