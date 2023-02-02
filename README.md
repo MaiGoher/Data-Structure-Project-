@@ -62,4 +62,5 @@ Analyze the data represented in the network
 - Graph Visualization is done using : 
          
          Graphviz
-  
+
+     ![WhatsApp Image 2023-02-02 at 8 49 30 PM](https://user-images.githubusercontent.com/39887130/216422129-912d17b0-0cb5-4af8-a153-c5309a47219e.jpeg)
