@@ -1,17 +1,23 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
+ */
 package project;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
 /**
  *
- * @author habiba
+ * @author Maram Ahmed , Esraa Amr
  */
 public class Checkconsistence {
 
  private String[] Lines = null;
     public static ArrayList<String> IncorrectTags;
+
+    public static ArrayList<Integer> IncorrectTagsLine;
 
     public int Counter_error = 0;
 
@@ -24,6 +30,7 @@ public class Checkconsistence {
                 .split("\n");
 
         IncorrectTags = new ArrayList<>();
+        IncorrectTagsLine = new ArrayList<>();
     }
 
     public boolean isOpeningTag(String s) {
@@ -57,84 +64,100 @@ public class Checkconsistence {
 
         return topStack.equals(s.toString());
     }
+    
+    public int getErrorCounter() {
+        return Counter_error;
+    }
+    
+    public ArrayList<String> getWrongTags(){
 
-    public String correctTag_str()
-    {
+        return IncorrectTags;
+    }
+    public ArrayList<Integer> getWrongTagsLines(){
+
+        return IncorrectTagsLine;
+    }
+    
+    
+    public String correctTag_str(String s) {
         StringBuilder File_correct = new StringBuilder();
+        Checkconsistence c1 = new Checkconsistence(s);
+        
 
-        for (String line : Lines)
-        {
-            if (NoTag(line))
-            {
-                if ((line.startsWith("<")) && !(line.endsWith(">")))
-                {
-                    File_correct.append(line).append(">").append("\n");
-                }
-                else if (!(line.startsWith("<")) && (line.endsWith(">")))
-                {
-                    File_correct.append("<").append(line).append("\n");
-                }
-                else
-                {
-                    if (!line.equals(""))
+        for (String line : Lines) {
+            if (NoTag(line)) {
+                if ((line.startsWith("<")) && !(line.endsWith(">"))) {
+                    int indexOfClosingBracket = line.indexOf(">");
+                    if (indexOfClosingBracket == -1) {
+                        File_correct.append(line).append(">").append("\n");
+                    } else {
                         File_correct.append(line).append("\n");
+                    }
+                } else if (!(line.startsWith("<")) && (line.endsWith(">"))) {
+                    File_correct.append("<").append(line).append("\n");
+                } else {
+                    if (!line.equals("")) {
+                        File_correct.append(line).append("\n");
+                    }
                 }
-            }
-            else
+            } else {
                 File_correct.append(line).append("\n");
+            }
         }
 
         return File_correct.toString();
     }
 
+    
+    
     public String correctTagBalance_str(String file)
     {
-        String[] Lines = file.split("\n");
-        StringBuilder File_correct = new StringBuilder();
-        Stack<String> TagsHolder = new Stack<>();
+        Stack<String> stack = new Stack<>();
+        
+    String[] lines = Prettifying.Prettify(file).split("\n");
+    
+    StringBuilder fileCorrect = new StringBuilder();
 
-        for (int i = 0; i < Lines.length; i++)
-        {
-            if (!NoTag(Lines[i]))
-            {
-                if (isOpeningTag(Lines[i]))
-                {
-                    TagsHolder.push(Lines[i]);
-                    File_correct.append(Lines[i]).append("\n");
+    for (String line : lines) {
+        int startIndex = line.indexOf('<');
+        int endIndex = line.indexOf('>');
+        if (startIndex != -1 && endIndex != -1) {
+            String tag = line.substring(startIndex + 1, endIndex);
+            if (!tag.startsWith("/")) {
+                
+                if(stack.empty()){
+                     stack.push(tag);
                 }
-                else if ((isClosingTag(Lines[i])) && !(TagsHolder.isEmpty()))
-                {
-                    if (compareTop(Lines[i], TagsHolder.peek()))
-                    {
-                        TagsHolder.pop();
-                        File_correct.append(Lines[i]).append("\n");
-                    }
-                    else
-                    {
-                        if (TagsHolder.contains(SlashCorrect_str(Lines[i])))
-                        {
-                            i--;
-                            File_correct.append(SlashCorrect_str(TagsHolder.peek())).append("\n");
-                            TagsHolder.pop();
-                        }
-                      
-                        else
-                        {
-                            File_correct.append(SlashCorrect_str(Lines[i])).append("\n").append(Lines[i]).append("\n");
-                        }
-                    }
+                else if(!(stack.peek()).equals(tag) ){
+                
+                stack.push(tag);
                 }
-                else if (isClosingTag(Lines[i]))
+                else if((stack.peek()).equals(tag))
                 {
-                    String lastFile = SlashCorrect_str(Lines[i]) + "\n" + File_correct.toString() + Lines[i];
-                    File_correct = new StringBuilder(lastFile);
+                // String popTag = stack.pop();
+                //String expectedTag = tag.substring(1);
+                     line = line.replace( tag, "/"+tag );
+                }
+            } else {
+               
+                String popTag = stack.pop();
+                String expectedTag = tag.substring(1);
+                if (!popTag.equals(expectedTag)) {
+                    line = line.replace("/" + expectedTag, "/" + popTag);
                 }
             }
-            else
-                File_correct.append(Lines[i]).append("\n");
         }
-
-        return File_correct.toString();
+        fileCorrect.append(line).append("\n");
+    }
+    
+        
+    while (!stack.empty()) {
+        String missingTag = stack.pop();
+        //System.out.println(missingTag);
+        fileCorrect.append("</").append(missingTag).append(">\n");
+    }
+        
+        return fileCorrect.toString();
     }
 
 
@@ -151,6 +174,7 @@ public class Checkconsistence {
         boolean hasAtLeastOnePush = false;
         Stack<String> TagsHolder = new Stack<>();
         IncorrectTags.clear();
+        IncorrectTagsLine.clear();
         Counter_error = 0;
 
         for (int i = 0 ; i < Lines.length; i++)
@@ -176,11 +200,14 @@ public class Checkconsistence {
                         {
                             i--;
                             IncorrectTags.add(TagsHolder.peek());
+                            IncorrectTagsLine.add(i);
                             TagsHolder.pop();
                         }
                        
                         else
                             IncorrectTags.add(Lines[i]);
+                            IncorrectTagsLine.add(i);
+                        
 
                     }
                 }
@@ -188,6 +215,7 @@ public class Checkconsistence {
                 {
                    Counter_error++;
                     IncorrectTags.add(Lines[i]);
+                    IncorrectTagsLine.add(i);
                 }
             }
         }
@@ -200,7 +228,7 @@ public class Checkconsistence {
 
         return (Counter_error == 0) && hasAtLeastOnePush;
     }
-
+/*
     public static String SlashCorrect_str(String Tag)
     {
         StringBuilder s = new StringBuilder();
@@ -219,26 +247,91 @@ public class Checkconsistence {
         }
         return s.toString();
     }
+*/
+    
+    
+    
+    public static String SlashCorrect_str(String file)
+        {
+        Stack<String> stack = new Stack<>();
+        
+    String[] lines = Prettifying.Prettify(file).split("\n");
+    
+    StringBuilder fileCorrect = new StringBuilder();
 
+    for (String line : lines) {
+        int startIndex = line.indexOf('<');
+        int endIndex = line.indexOf('>');
+        if (startIndex != -1 && endIndex != -1) {
+            String tag = line.substring(startIndex + 1, endIndex);
+            if (!tag.startsWith("/")) {
+                
+                if(stack.empty()){
+                     stack.push(tag);
+                }
+                else if(!(stack.peek()).equals(tag) ){
+                
+                stack.push(tag);
+                }
+                else if((stack.peek()).equals(tag))
+                {
+                // String popTag = stack.pop();
+                //String expectedTag = tag.substring(1);
+                     line = line.replace( tag, "/"+tag );
+                }
+            
+            }
+        }
+        fileCorrect.append(line).append("\n");
+    }
+    
+       
+        return fileCorrect.toString();
+    }
+
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public boolean CheckCorrectnessTags_bool()
     {
        Counter_error = 0;
         IncorrectTags.clear();
+        IncorrectTagsLine.clear();
         boolean isTagCorrect = true;
 
-        for (String line : Lines)
+        for (int i=0 ; i < Lines.length ; i++) 
         {
-            if (NoTag(line)) {
-                if ((line.startsWith("<")) && !(line.endsWith(">")))
+            if (NoTag(Lines[i])) {
+                if ((Lines[i].startsWith("<")) && !(Lines[i].endsWith(">")))
                 {
                    Counter_error++;
-                    IncorrectTags.add(line);
+                    IncorrectTags.add(Lines[i]);
+                    IncorrectTagsLine.add(i);
+                    
                     isTagCorrect = false;
                 }
-                else if (!(line.startsWith("<")) && (line.endsWith(">")))
+                else if (!(Lines[i].startsWith("<")) && (Lines[i].endsWith(">")))
                 {
                     Counter_error++;
-                    IncorrectTags.add(line);
+                    IncorrectTags.add(Lines[i]);
+                    IncorrectTagsLine.add(i);
                     isTagCorrect = false;
                 }
             }
@@ -252,4 +345,58 @@ public class Checkconsistence {
         boolean result1 = CheckTagsBalance_bool();
         return result1 && result2;
     }
+
+    public static void main(String args[]) throws IOException {
+
+        String s = "<users>\n" +
+                "    <user>\n" +
+                "        <id>1</id> \n" +
+                "        <name> Ahmed Ali\n </name> "+
+                "        <posts>\n" +
+                "            <post>\n" +
+                "                <body>\n" +
+                "                  shamosaa"+
+                //"                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                </body>\n" +
+                "                <topics>\n" +
+                "                    <topic>\n" +
+                "                        economy\n" +
+                "                    </topic>\n" +
+                "                    <topic>\n" +
+                "                        finance\n" +
+                "                    </topic>\n" +
+                "                </topics>\n" +
+                "            </post>\n" +
+                "            <post>\n" +
+                "                <body>\n" +
+                "                  mai"+
+               // "                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                </body>\n" +
+                "                <topics>\n" +
+                "                    <topic>\n" +
+                "                        solar_energy\n" +
+                "                    </topic>\n" +
+                "                </topics>\n" +
+                "            </post>\n" +
+                "        </posts>\n" +
+                "        <followers>\n" +
+                "            <follower>\n" +
+                "                <id>2</id>\n" +
+                "            </follower>\n" +
+                "            <follower>\n" +
+                "               <id> 3 </id> \n" +
+                "            </follower>\n" +
+                "        </followers>\n" +
+                "    </user>\n" +               
+                "</users>";
+
+        Checkconsistence c1 = new Checkconsistence(Prettifying.Prettify(s));
+       // System.out.println(c1.isFileConsistent());
+      //  System.out.println(c1.CheckCorrectnessTags_bool());
+        //System.out.println("Errors --> " + c1.getErrorCounter());
+        //System.out.println(c1.getWrongTags());
+         //System.out.println(c1.getWrongTagsLines());
+           
 }
+}
+
