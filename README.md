@@ -49,19 +49,19 @@ Analyze the data represented in the network
 **Most Influencer User**
 
 - It returns the user who has the most followers on the network
-- 
+
 **Most Active User**
 
 - It return the user who follows the biggest number of users
-- 
+
 **Mutual Friends**
 
 - The mutual followers between two users are the users who follow both of them.
-- 
+
 **Suggested Friends**
 
 - For each user, a list of users to follow can be suggested based on the followers of their followers.
-- 
+
 ## Post Search
 
 - Searching is simply done by checking the post's body text and topics for the word to be found, and adds a string with the user's name and relevant information (the body or topic) to the list to be returned if found.
