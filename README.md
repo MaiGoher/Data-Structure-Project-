@@ -24,7 +24,3 @@ Each post has text and list of topics.
 Check if the XML file is consistent, that is, all opening tags have corresponding closing tags.
 This check is done using Stack data structure.
 If the XML file is inconsistent, number of errors, and tags left in the stack are displayed to the user.
-### Formatting XML
-
-Adjust the indentation of an XML file, to make it more readable.
-If the file is not consistent, user cannot format it.
