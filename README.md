@@ -64,3 +64,14 @@ Analyze the data represented in the network
          Graphviz
 
      ![WhatsApp Image 2023-02-02 at 8 49 30 PM](https://user-images.githubusercontent.com/39887130/216422129-912d17b0-0cb5-4af8-a153-c5309a47219e.jpeg)
+## Screenshots
+
+![WhatsApp Image 2023-02-02 at 9 04 21 PM](https://user-images.githubusercontent.com/39887130/216425982-708a634f-0ad9-4b32-b235-a77ddfafdb48.jpeg)
+
+![WhatsApp Image 2023-02-02 at 9 04 05 PM](https://user-images.githubusercontent.com/39887130/216426409-605e12bd-e495-4b56-8ab2-8eef120ed379.jpeg)
+## Authors
+
+- [@esraaAmr](https://github.com/esraaAmr)
+- [@Habibaaahmed](https://github.com/Habibaaahmed)
+- [@MaiGoher](https://github.com/MaiGoher)
+- [@maramahmed74](https://github.com/maramahmed74)
