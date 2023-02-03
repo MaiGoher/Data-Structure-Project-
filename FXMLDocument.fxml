@@ -32,7 +32,7 @@
                         <Font name="Arial Black" size="13.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FF0000;" text="Visualize" textFill="#fffbfb">
+                  <Button fx:id="btnviz" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#visualize" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FF0000;" text="Visualize" textFill="#fffbfb">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -94,9 +94,14 @@
                         <Insets top="10.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
+                  <VBox alignment="TOP_CENTER" prefHeight="102.0" prefWidth="212.0" spacing="10.0" style="-fx-background-color: #27436B;">
                      <children>
                         <Button fx:id="btnonMakeGraph" mnemonicParsing="false" onAction="#onMakeGraph" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="onMakeGraph" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="networkbtn" mnemonicParsing="false" onAction="#networkanalysis" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00A8A8;" text="Network analysis" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>

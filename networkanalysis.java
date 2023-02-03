@@ -7,10 +7,12 @@ import java.io.*;
 import java.util.Stack;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
- * @author habib
+ * @author habiba
  */
 public class networkanalysis {
     
@@ -24,8 +26,6 @@ ArrayList<String> rowssp = new ArrayList<>();
 		
 		String[] rowsArray = xml.trim().replace(" ", "").replaceAll(">", ">\n").replaceAll("<", "\n<").split("\n");
                 String[] rowsspecial = xml.trim().replace("  ", "").replaceAll(">", ">\n").replaceAll("<", "\n<").split("\n");
-                
-		/* delete empty rows */
 		for (String s : rowsArray){
 			if (!s.isEmpty()){
 				rows.add(s);
@@ -39,9 +39,6 @@ ArrayList<String> rowssp = new ArrayList<>();
 	}
 
 
-	/*
-		Desc: returns user ID with most followers
-	*/
 	public ArrayList<String> getMostInfluencerUser(){
 
 		int mostInfluencerFollowers=0, mostInfluencerID=0;
@@ -85,14 +82,9 @@ ArrayList<String> rowssp = new ArrayList<>();
 	}
 
 
-	/*
-	 * Desc: retruns number of followers for a specific user 
-	 * */
 	public int getCurrentUserFollowers(int startingIndex) {
 
 		int followers =0;
-
-		/** count how many <follower> tags are there, till we get to </followers> closing tag */
 		for (int i=startingIndex; i< rows.size(); i++) {
 			
 			if (rows.get(i).equals("<follower>")){
@@ -156,8 +148,7 @@ ArrayList<String> rowssp = new ArrayList<>();
 		for (int i=0; i< FollowerList.size(); i++) {
 		if(FollowerList.get(i).equals(x)){
                 following++;
-                }	
-			
+                }				
 		}
 
 		return following;
@@ -174,24 +165,14 @@ ArrayList<String> rowssp = new ArrayList<>();
         for (int i=0; i< rowssp.size(); i++){
 
                  if (rowssp.get(i).equals("<post>") ){      
-                     
-
                    for(int j=i+1 ;j<rowssp.size(); j++)
                    {
-                        if((rowssp.get(j).equals("<body>"))){ 
-                           
+                        if((rowssp.get(j).equals("<body>"))){       
                       if(!(rowssp.get(j++).equals("</body>"))){
-                           
-                      
                       stackPosts.push(rowssp.get(j++));
-                       
-                         
                       }}
                    else if(rowssp.get(j).equals("<topics>")){
                        while(!rowssp.get(j++).equals("</topics>")){
-                         
-                        // System.out.println(j);
-                         
                          if((rowssp.get(j).equals("<topic>"))){
                          if(!(rowssp.get(j++).equals("</topic>"))){
                             stackPosts.push(rowssp.get(j++));}
@@ -199,20 +180,11 @@ ArrayList<String> rowssp = new ArrayList<>();
                          
                         } else{
                       break;}
-                   
-               
-  
                  }stackPosts.push("*");
-                  
-                    
- 
                  }}
 
-         
          while( !stackPosts.empty() && !val ){
-             System.out.println("ana lesa da5l");
              post=stackPosts.peek();
-             System.out.println(post.contains(word));
              val = post.contains(word);
              stackPosts.pop();
              while( !stackPosts.empty() && val)
@@ -236,8 +208,6 @@ ArrayList<String> rowssp = new ArrayList<>();
              }              
 
              }}
-         System.out.println(result);
-
        return result;
         }
 
@@ -251,7 +221,6 @@ ArrayList<String> rowssp = new ArrayList<>();
         
         public ArrayList<String> getlist(String x) {
           ArrayList<String> Listt = new ArrayList<>();
-         // System.out.println(FollowerList.size());
            for(int i=0; i<FollowerList.size()-1;i++){
     
             if(FollowerList.get(i).equals("*"))
@@ -277,37 +246,43 @@ ArrayList<String> rowssp = new ArrayList<>();
           }
         
           
-        public  ArrayList<String> getSuggestList(String ID){
+        public ArrayList<String> getSuggestList(String ID){
             ArrayList<String> currentfollowerlist=new ArrayList<>();
              ArrayList<String> currentfollowinglist=new ArrayList<>();
-            ArrayList<String> mix=new ArrayList<>();
-         //    ArrayList<String> SuggestList=new ArrayList<>();
-             ArrayList<String> temp=new ArrayList<>();
-            
+            ArrayList<String> result=new ArrayList<>();
+            Set<String> mix=new HashSet<String>(); 
+             ArrayList<String> temp=new ArrayList<>();     
             currentfollowerlist=getlist(ID);
             currentfollowinglist=getFollowing(ID);
-            
             for(int i=0; i< currentfollowerlist.size();i++){
                 temp=getlist(currentfollowerlist.get(i));
-                
                 for(int j=0; j< temp.size();j++){
                 mix.add(temp.get(j));
                 
                 }
-               mix.remove(ID);
+              mix.remove(ID);
             }
-           
-          
-          
             for(int j=0; j< mix.size();j++){
-               
-            for(int k=0 ; k<  currentfollowinglist.size();k++ ){
-                  mix.remove(  currentfollowinglist.get(k));
- 
-            }}
-        
           
-            return mix;
+          for(int k=0 ; k<  currentfollowinglist.size();k++ ){
+
+                  mix.remove(  currentfollowinglist.get(k));
+            
+          
+        }}
+            
+             
+          for(String value :mix){
+              
+                  result.add(value);
+            
+          
+        }
+            
+            
+        
+           System.out.println("mix"+mix);
+            return result;
             
         }
         
@@ -334,27 +309,13 @@ ArrayList<String> rowssp = new ArrayList<>();
             }
             
             }
-            /*
-              for(int k=0 ; k< mutual.size();k++ )
-                {
-                    System.out.println( mutual.get(k));
-                
-                }
-            */
-            
+
             return mutual;
            }
         
         
         public ArrayList<String>getFollowing(String x) {
-            //getlist(x)
             ArrayList<String> result=new ArrayList<>();
-           /* for(int i=0;i<FollowerList.size();i++){
-                if()
-            
-            }*/
-          // result.indexOf("*");
-         
            ArrayList<Integer> matchingIndices = new ArrayList<>();
             for (int i = 0; i < FollowerList.size(); i++) {
              
@@ -369,10 +330,7 @@ ArrayList<String> rowssp = new ArrayList<>();
                 if(FollowerList.get(k).equals(x)){
                 result.add(FollowerList.get(matchingIndices.get(j)+1));
                 
-                }
-                
-            }}
-            }
+                }}}}
            
             return result;
         }
@@ -389,23 +347,12 @@ ArrayList<String> rowssp = new ArrayList<>();
 		for (int i=0; i< rows.size(); i++){
 			if (rows.get(i).equals("<user>") && rows.get(i+1).equals("<id>")){
 				currentUserID = getUserID(i+2);
-                                //System.out.println("user");
-                                //System.out.println(rows.get(i+2));
                                 FollowerList.add(rows.get(i+2));
-                                 //getFOLLOWERS(i); 
-                                 
                                  }
                     for (int j=i; j< rows.size(); j++) {
                      if (rows.get(i).equals("<follower>")){
-		    
-                            //System.out.println("follower");
-                            //System.out.println(rows.get(j+2));
                            FollowerList.add(rows.get(j+2));
                         break;
-                           
-                          
-                        
-        
 			}	else if (rows.get(i).equals("</followers>")){
                               FollowerList.add("*");
 				break;
@@ -427,7 +374,7 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <post>\n" +
                 "                <body>\n" +
                // "                  shamosaa"+
-                "                    1Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
                 "                </body>\n" +
                 "                <topics>\n" +
                 "                    <topic>\n" +
@@ -441,7 +388,7 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <post>\n" +
                 "                <body>\n" +
                 //"                  mai"+
-                "                    2Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                    A friend is someone who makes it easy to believe in yourself\n" +
                 "                </body>\n" +
                 "                <topics>\n" +
                 "                    <topic>\n" +
@@ -457,10 +404,6 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <follower>\n" +
                 "                <id>3</id>\n" +
                 "            </follower>\n" +
-                "            <follower>\n" +
-                "                <id>4</id>\n" +
-                "            </follower>\n" +
-                
                 "        </followers>\n" +
                 "    </user>\n" +
                 "    <user>\n" +
@@ -470,7 +413,7 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <post>\n" +
                 "                <body>\n" +
                 //"                  maram"+
-                "                    3Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                    family is not an important thing. its everything.\n" +
                 "                </body>\n" +
                 "                <topics>\n" +
                 "                    <topic>\n" +
@@ -498,18 +441,18 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <post>\n" +
                 "                <body>\n" +
               //  "                 habiba"+
-                "                    4Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
                 "                </body>\n" +
                 "                <topics>\n" +
                 "                    <topic>\n" +
-                "                        sports\n" +
+                "                        family\n" +
                 "                    </topic>\n" +
                 "                </topics>\n" +
                 "            </post>\n" +
                 "        </posts>\n" +
                 "        <followers>\n" +
                 "            <follower>\n" +
-                "                <id>2</id>\n" +
+                "                <id>1</id>\n" +
                 "            </follower>\n" +
                 "        </followers>\n" +
                 "    </user>\n" +
@@ -520,40 +463,70 @@ ArrayList<String> rowssp = new ArrayList<>();
                 "            <post>\n" +
                 "                <body>\n" +
                 //"                esraa"+
-                "                    5Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n" +
+                "                    Every person you meet knows something you dont; learn from them\n" +
                 "                </body>\n" +
                 "                <topics>\n" +
                 "                    <topic>\n" +
-                "                        education\n" +
+                "                        sport\n" +
                 "                    </topic>\n" +
                 "                </topics>\n" +
                 "            </post>\n" +
                 "        </posts>\n" +
+                "        <followers>\n" +
+                "            <follower>\n" +
+                "                <id>3</id>\n" +
+                "            </follower>\n" +
+                "        </followers>\n" +
                 "    </user>\n" +
-                
-                
-                
-                
+                "    <user>\n" +  
+                 "        <id>5</id>\n" +
+                "        <name>Yasser Ahmed</name>\n" +
+                "        <posts>\n" +
+                "            <post>\n" +
+                "                <body>\n" +
+                //"                esraa"+
+                "                   every person you meet knows something you dont; learn from them \n" +
+                "                </body>\n" +
+                "                <topics>\n" +
+                "                    <topic>\n" +
+                "                        cartoon\n" +
+                "                    </topic>\n" +
+                "                </topics>\n" +
+                "            </post>\n" +
+                "        </posts>\n" +
+                "        <followers>\n" +
+                "            <follower>\n" +
+                "                <id>1</id>\n" +
+                "            </follower>\n" +
+                "            <follower>\n" +
+                "                <id>3</id>\n" +
+                "            </follower>\n" +
+                "            <follower>\n" +
+                "                <id>4</id>\n" +
+                "            </follower>\n" +                
+                "        </followers>\n" +
+                "    </user>\n" +                  
                 "</users>";
-        networkanalysis esraa_mai =new networkanalysis(s);
+        networkanalysis var =new networkanalysis(s);
         
-        esraa_mai.getFollowersList();
+        var.getFollowersList();
         
-    //  System.out.println(  esraa_mai.getFollowing("4"));
-         //       System.out.println(esraa_mai.FollowerList);
+    //  System.out.println(  var.getFollowing("4"));
+         //       System.out.println(var.FollowerList);
         /*
-        for(int i=0 ;i< esraa_mai.rowssp.size();i++ ){
-         System.out.println(esraa_mai.rowssp.get(i));
+        for(int i=0 ;i< var.rowssp.size();i++ ){
+         System.out.println(var.rowssp.get(i));
         }
 */
-               //System.out.println(esraa_mai.PostSearch("finance"));
-        System.out.println(esraa_mai.getMostActiveUser());
+               System.out.println(var.PostSearch("cartoon"));
+      //  System.out.println(var.getSuggestList("2"));
+                //System.out.println(var.getSuggestList("2"));
           
-           //System.out.println(esraa_mai.getMostActiveUser());
-          //System.out.println(esraa_mai.getMutualFollowers("1","2"));
+           //System.out.println(var.getMostActiveUser());
+          //System.out.println(var.getMutualFollowers("1","2"));
                
            
-             //  System.out.println(esraa_mai.getSuggestList("1") );
+             //  System.out.println(var.getSuggestList("1") );
                 
                
 

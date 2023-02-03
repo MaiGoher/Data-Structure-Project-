@@ -1,17 +1,25 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package javafxapplication1;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -27,14 +35,15 @@ import project.XmlToJson;
 import project.graph_representation;
 import project.Checkconsistence;
 import project.CompressionHuffman;
-
+import javafx.scene.image.*;
 /**
  * FXML Controller class
  *
- * @author habib
+ * @author habiba
  */
 public class FXMLDocumentController implements Initializable {
- String  xml, xmlOut;
+   
+ public static String  xml, xmlOut;
  File input;
   File output;
   boolean graphReady;
@@ -66,6 +75,10 @@ public class FXMLDocumentController implements Initializable {
     private Button btnonMakeGraph;
     @FXML
     private Button btncorrecterror;
+    @FXML
+    private Button btnviz;
+    @FXML
+    private Button networkbtn;
     
     /**
      * Initializes the controller class.
@@ -79,19 +92,13 @@ public class FXMLDocumentController implements Initializable {
           FileChooser.ExtensionFilter Filter2 = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
          fileChooser.getExtensionFilters().add(Filter);
           fileChooser.getExtensionFilters().add(Filter2);
-        // TextArea2.setWrapText(true);
-        
-       
+  
     }    
 
     @FXML
     private void savefile(ActionEvent event) {
         
         xmlOut = TextArea2.getText();
-      //   FileChooser fileChooser = new FileChooser();
-        // FileChooser.ExtensionFilter extFilter2 = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-      //  FileChooser.ExtensionFilter Filter2 = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        // fileChooser.getExtensionFilters().add(Filter2);
         output = fileChooser.showSaveDialog(new Stage());
 
         if (output != null) {
@@ -120,9 +127,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void FileSelector(ActionEvent event) {
-        // FileChooser fileChooser = new FileChooser();
-      //  FileChooser.ExtensionFilter Filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-      //  fileChooser.getExtensionFilters().add(Filter);
         input = fileChooser.showOpenDialog(new Stage());
         if (input != null ) {
             InputStream orgInStream = System.in;
@@ -156,9 +160,6 @@ public class FXMLDocumentController implements Initializable {
      xml = TextArea1.getText();
         if (checkIfEmpty(xml))
             return;
-
-      // JOptionPane.showMessageDialog(null, "compression status","compression",JOptionPane.INFORMATION_MESSAGE);
-
         output = fileChooser.showSaveDialog(new Stage());
 
         if (output != null) {
@@ -230,20 +231,21 @@ public class FXMLDocumentController implements Initializable {
        xml = TextArea1.getText();
         if (checkIfEmpty(xml))
             return;
-       
-       Checkconsistence corrector=new Checkconsistence(xml);
+         Checkconsistence c1 = new Checkconsistence(Prettifying.Prettify(xml));
          
-         
-         if(!corrector.isFileConsistent()){
+         if(!c1.isFileConsistent()){
          JOptionPane.showMessageDialog(null, "Errors have been corrected ","correct error",JOptionPane.INFORMATION_MESSAGE);
          String msg;
-         msg=corrector.correctTag_str();
-         msg=corrector.correctTagBalance_str(msg);
-         TextArea2.setText( Prettifying.Prettify(msg));
+         String result;
+         msg=c1.SlashCorrect_str(Prettifying.Prettify(xml));
+         result=c1.correctTag_str(Prettifying.Prettify(msg));
+         result=c1.correctTagBalance_str(Prettifying.Prettify(result));
+        TextArea2.setText( result);
          }else{
          JOptionPane.showMessageDialog(null, "Xml file has no errors to be corrected! ","correct error",JOptionPane.INFORMATION_MESSAGE);
          TextArea2.setText( Prettifying.Prettify(xml));
          }
+         
  
     }
      @FXML
@@ -252,26 +254,14 @@ public class FXMLDocumentController implements Initializable {
         if (checkIfEmpty(xml))
             return;
      Checkconsistence checker=new Checkconsistence(xml);   
-    
-      if (!checker.CheckCorrectnessTags_bool()){
-         StringBuilder msg = new StringBuilder();
-           JOptionPane.showMessageDialog(null,"XML file is NOT consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
-            msg.append("Errors count = ").append(checker.Counter_error).append("\n").append("Correct the following tag/s, then check again:\n");
-
-            for (String s : checker.IncorrectTags) {
-                msg.append(s).append("\n");
-            }
-            TextArea2.setText(msg.toString());
-            return;
-      }
-            if (checker.CheckTagsBalance_bool()) {
+            if (checker.isFileConsistent()) {
             
              JOptionPane.showMessageDialog(null, "XML file is consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
             TextArea2.clear();
         } else {
             StringBuilder msg = new StringBuilder();
             JOptionPane.showMessageDialog(null,"XML file is NOT consistent","Consistency check",JOptionPane.INFORMATION_MESSAGE);
-            msg.append("Errors count = ").append(checker.Counter_error).append("\n").append("Error/s in the following tag/s:\n");
+            msg.append("Errors count = ").append(checker.getErrorCounter()).append("\n").append("Error/s in the following tag/s:\n");
 
             for (String s : checker.IncorrectTags) {
                 msg.append(s).append("\n");
@@ -303,8 +293,66 @@ public class FXMLDocumentController implements Initializable {
     
     }
     @FXML
-    private void onMakeGraph(ActionEvent event) {
+    private void onMakeGraph(ActionEvent event) throws IOException {
+        xml = TextArea1.getText();
+        if (checkIfEmpty(xml))
+            return;
 
+       Checkconsistence checker = new Checkconsistence(xml);
+        if (checker.CheckTagsBalance_bool()&& !xml.isEmpty()) {
+            synchronized (graph_representation.class) {
+                graph_representation.draw(xml);
+                graphReady = true;
+            }
+        } else {
+   
+             JOptionPane.showMessageDialog(null,"The provided XML has to be consistent to be converted to visualized","Consistency error",JOptionPane.INFORMATION_MESSAGE);
+        }
+    
+    }
+
+    @FXML
+    private void visualize(ActionEvent event) {
+        
+         if (!graphReady){
+
+           JOptionPane.showMessageDialog(null,"Please make the graph first","Graph Missing",JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Image image;
+        try {
+            image = new Image(new FileInputStream("graph.dot.png"));
+            ImageView iv = new ImageView(image);
+            iv.setPreserveRatio(true);
+            Group root = new Group(iv);
+            Stage s = new Stage();
+            s.setScene(new Scene(root, 600, 500));
+            s.setTitle("Graphical Representation");
+            s.showAndWait();
+        } catch (FileNotFoundException ee) {
+            ee.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void networkanalysis(ActionEvent event) throws IOException {
+        
+      if (graphReady){
+        Parent root = FXMLLoader.load(getClass().getResource("graphFXML.fxml"));
+        Stage stage =new Stage();
+        Scene scene = new Scene(root);
+        
+        stage.setScene(scene);
+        
+        stage.setTitle("Network analysis");
+        stage.show(); 
+      }else{
+      
+           JOptionPane.showMessageDialog(null,"Please make the graph first","Graph Missing",JOptionPane.INFORMATION_MESSAGE);
+      
+      }
+        
     }
 
 
